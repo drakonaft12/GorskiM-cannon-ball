@@ -67,6 +67,7 @@ public abstract class CreateBase : MonoBehaviour
             activObject.Add(true);
             timeObject.Add(timeLife);
             allObject.Add(newObject);
+            newObject.AddComponent<CreatObject>().createObject=gameObject;
             return newObject;
         }
         else

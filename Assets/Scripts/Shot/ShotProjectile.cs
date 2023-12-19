@@ -13,7 +13,7 @@ public class ShotProjectile : ShotBase
         if (rigidbody != null)
         {
             
-            rigidbody.AddForce(rigidbody.transform.forward * speed);
+            rigidbody.AddForce(rigidbody.transform.forward * speed,ForceMode.VelocityChange);
         }
     }
 }
