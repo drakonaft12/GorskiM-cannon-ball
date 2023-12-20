@@ -30,6 +30,7 @@ public class Rotatebase : RotateAxis
     public override void Rotate(Vector2 vector)
     {
         current += vector;
+        current.x %= 360; current.y %= 360;
         ApplyRotation();
     }
 
