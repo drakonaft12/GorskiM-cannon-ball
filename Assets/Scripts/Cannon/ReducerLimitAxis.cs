@@ -5,26 +5,31 @@ using UnityEngine;
 
 public class ReducerLimitAxis : ReducerAxis
 {
-    [SerializeField] private Vector2 max;
-    [SerializeField] private Vector2 min;
+    [SerializeField] private LimitAxis limitX;
+    [SerializeField] private LimitAxis limitY;
 
     public override void Rotate(Vector2 vector)
     {
-        Vector2 lim = returnCurrent;
-        
-        if(lim.x <= max.x && lim.y <= max.y && lim.x >= min.x && lim.y >= min.y)
-        {
-            base.Rotate(vector);
-        }
-        else
-        {
-            var grY = Math.Clamp(lim.y, min.y, max.y);
-            vector.y = grY == lim.y ? vector.y : 0;
-            var grX = Math.Clamp(lim.x, min.x, max.x);
-            vector.x = grX == lim.x ? vector.x : 0;
-            returnCurrent = new Vector2(grX, grY);
 
-            base.Rotate(vector);
-        }
+        vector.y = limitY.Limit(returnCurrent.y + vector.y * coeff.y) ? vector.y : 0f;  
+        vector.x = limitX.Limit(returnCurrent.x + vector.x * coeff.x) ? vector.x : 0f;
+        returnCurrent = new Vector2(limitX.rf, limitY.rf);
+        base.Rotate(vector);
+        
+    }
+}
+
+[Serializable]
+public struct LimitAxis
+{
+    public float min;
+    public float max;
+    public float rf;
+
+    public bool Limit(float value)
+    {
+        rf = Math.Clamp(value, min, max);
+        if (min < value && value < max) return true;
+        return false;
     }
 }
