@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class TargetBase : MonoBehaviour
 {
-    [SerializeField] private float life = 100;
+    [SerializeField] private float MaxHP = 100f;
+    private float life;
     public abstract bool HitResult(Collider other);
 
     public virtual void LifeReact(float damage)
@@ -15,4 +16,15 @@ public abstract class TargetBase : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    private void OnEnable()
+    {
+        RestoreLife();
+    }
+
+    public void RestoreLife()
+    {
+        life = MaxHP;
+    }
+    
 }

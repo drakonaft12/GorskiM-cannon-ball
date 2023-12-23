@@ -8,6 +8,7 @@ public abstract class CreateBase : MonoBehaviour
     [SerializeField] private GameObject prefObject;
     [SerializeField] private int timeLife = 3;
     [SerializeField] private int deltaLife = 90;
+    [SerializeField] private GameObject[] addObject;
 
     private List<GameObject> allObject;
     private List<bool> activObject;
@@ -18,10 +19,24 @@ public abstract class CreateBase : MonoBehaviour
         allObject = new List<GameObject>();
         activObject = new List<bool>();
         timeObject = new List<int>();
+        AddRelisObject();
     }
     public void Update()
     {
         ControlObject();
+    }
+
+    private void AddRelisObject()
+    {
+        if (addObject.Length != 0)
+        {
+            foreach (var obj in addObject)
+            {
+                allObject.Add(obj);
+                activObject.Add(obj.activeSelf);
+                timeObject.Add(timeLife);
+            }
+        }
     }
 
     public virtual void ControlObject()
@@ -36,7 +51,7 @@ public abstract class CreateBase : MonoBehaviour
         }
     }
 
-    private void Active(int index, bool active)
+    protected void Active(int index, bool active)
     {
         allObject[index].SetActive(active);
         activObject[index] = active;
@@ -50,10 +65,14 @@ public abstract class CreateBase : MonoBehaviour
         }
     }
 
-    private int Active() => activObject.IndexOf(false);
+    protected int Active() => activObject.IndexOf(false);
 
-    protected List<GameObject> getObjects { get => allObject; } 
-  
+    protected List<GameObject> getObjects { get => allObject; }
+    protected List<bool> getActive { get => activObject; }
+    protected List<int> getTime { get => timeObject; }
+    protected int getDeltaLife { get => deltaLife; }
+    protected int getTimeLife { get => timeLife; }
+
 
     public abstract void Reload(int index);
 

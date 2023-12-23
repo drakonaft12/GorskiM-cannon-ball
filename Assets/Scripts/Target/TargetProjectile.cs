@@ -17,6 +17,7 @@ public class TargetProjectile : TargetBase
     {
         HitResult(collision.collider);
         var pos = transform.position + (transform.position - collision.transform.position)*(Random.Range(0,1)==1?-1:1 * Random.Range(0.5f, 1.5f));
+        gameObject.GetComponent<MeshRenderer>().material.color = Color.HSVToRGB(Random.Range(0f,1f), 1, 1);
         transform.DOMove(pos, 0.2f);
         LifeReact(10);
         
